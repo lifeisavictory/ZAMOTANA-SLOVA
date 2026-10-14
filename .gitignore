@@ -1,0 +1,56 @@
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.kotlin
+
+### Java ###
+*.class
+*.log
+*.jar
+hs_err_pid*
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### AI nástroje ###
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+.cursor/
+.cursorrules
+.windsurf/
+.aider*
+.continue/
+.github/copilot-instructions.md
+
+### Mac OS ###
+.DS_Store
+
+### Windows ###
+Thumbs.db
+Desktop.ini
