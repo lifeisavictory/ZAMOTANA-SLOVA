@@ -5,80 +5,80 @@ import java.util.Locale;
 
 public class Service {
 
-    private String nahodneSlovo = "";
-    private String zamichaneSlovo = "";
-    private int pocetKol = 0;
-    private int scoreClovek = 0;
-    private int scorePocitac = 0;
-    private String vyhodnoceniZnaku = "";
-    private String vyhodnoceni = "";
+    private String originalWord = "";
+    private String shuffledWord = "";
+    private int roundCount = 0;
+    private int playerScore = 0;
+    private int computerScore = 0;
+    private String hint = "";
+    private String roundResult = "";
 
     public Service() {
     }
 
-    public String getNahodneSlovo() {
-        return nahodneSlovo;
+    public String getOriginalWord() {
+        return originalWord;
     }
 
-    public String getZamichaneSlovo() {
-        return zamichaneSlovo;
+    public String getShuffledWord() {
+        return shuffledWord;
     }
 
-    public int getPocetKol() {
-        return pocetKol;
+    public int getRoundCount() {
+        return roundCount;
     }
 
-    public int getScoreClovek() {
-        return scoreClovek;
+    public int getPlayerScore() {
+        return playerScore;
     }
 
-    public int getScorePocitac() {
-        return scorePocitac;
+    public int getComputerScore() {
+        return computerScore;
     }
 
-    public String getVyhodnoceniZnaku() {
-        return vyhodnoceniZnaku;
+    public String getHint() {
+        return hint;
     }
 
-    public String getVyhodnoceni() {
-        return vyhodnoceni;
+    public String getRoundResult() {
+        return roundResult;
     }
 
     /**
      * Vybere nahodne slovo z dane obtiznosti.
-     * @param tvojeVolba volba obtiznosti
+     * @param difficulty volba obtiznosti
      */
-    public void vyberNahodneSlovo(int tvojeVolba) {
-        if (tvojeVolba == 1) {
-            nahodneSlovo = Words.EASY.getRandomWord().toLowerCase(Locale.ROOT);
-        } else if (tvojeVolba == 2) {
-            nahodneSlovo = Words.MEDIUM.getRandomWord().toLowerCase(Locale.ROOT);
-        } else if (tvojeVolba == 3) {
-            nahodneSlovo = Words.HARD.getRandomWord().toLowerCase(Locale.ROOT);
+    public void pickRandomWord(int difficulty) {
+        if (difficulty == 1) {
+            originalWord = Words.EASY.getRandomWord().toLowerCase(Locale.ROOT);
+        } else if (difficulty == 2) {
+            originalWord = Words.MEDIUM.getRandomWord().toLowerCase(Locale.ROOT);
+        } else if (difficulty == 3) {
+            originalWord = Words.HARD.getRandomWord().toLowerCase(Locale.ROOT);
         } else {
-            throw new IllegalArgumentException("Neplatná volba - " + tvojeVolba + " - (povoleno 1-3).");
+            throw new IllegalArgumentException("Neplatná volba - " + difficulty + " - (povoleno 1-3).");
         }
     }
 
     /**
      * Zamichá písmena ve slově.
      */
-    public void zamichejSlovo() {
+    public void shuffleWord() {
         //potrebujeme List z char, abysme ho mohli zamichat pres shuffle()
-        List<Character> Letters = new ArrayList<>();
-        StringBuilder zmeneneSlovo;
+        List<Character> letters = new ArrayList<>();
+        StringBuilder shuffled;
         do {
-            Letters.clear();
-            zmeneneSlovo = new StringBuilder();
-            for (char d : nahodneSlovo.toCharArray()) {
-                Letters.add(d);
+            letters.clear();
+            shuffled = new StringBuilder();
+            for (char letter : originalWord.toCharArray()) {
+                letters.add(letter);
             }
-            Collections.shuffle(Letters);
-            for (char c : Letters) {
-                zmeneneSlovo.append(c);
+            Collections.shuffle(letters);
+            for (char letter : letters) {
+                shuffled.append(letter);
             }
-        } while (nahodneSlovo.equals(zmeneneSlovo.toString()));
-        zamichaneSlovo = zmeneneSlovo.toString();
+        } while (originalWord.equals(shuffled.toString()));
+        shuffledWord = shuffled.toString();
     }
 
 
@@ -86,18 +86,18 @@ public class Service {
      * Vyhodnotí odhad uživatele
      * Za špatně uhodnuté znaky dosadí znak "otazníku"
      *
-     * @param tvujOdhadPuvodnihoSlova odhad uživatele
+     * @param guess odhad uživatele
      */
-    public void vyhodnotOdhadSNapovedou(String tvujOdhadPuvodnihoSlova) {
-        vyhodnoceniZnaku = "";
-        if (tvujOdhadPuvodnihoSlova.length() != nahodneSlovo.length()) {
-            vyhodnoceniZnaku = "Slovo neodpovídá svojí délkou";
+    public void buildHint(String guess) {
+        hint = "";
+        if (guess.length() != originalWord.length()) {
+            hint = "Slovo neodpovídá svojí délkou";
         } else {
-            for (int i = 0; i < nahodneSlovo.length(); i++) {
-                if (tvujOdhadPuvodnihoSlova.charAt(i) == nahodneSlovo.charAt(i)) {
-                    vyhodnoceniZnaku += tvujOdhadPuvodnihoSlova.charAt(i);
+            for (int i = 0; i < originalWord.length(); i++) {
+                if (guess.charAt(i) == originalWord.charAt(i)) {
+                    hint += guess.charAt(i);
                 } else {
-                    vyhodnoceniZnaku += "?";
+                    hint += "?";
                 }
             }
         }
@@ -107,16 +107,16 @@ public class Service {
     /**
      * Vyhodnotí odhad uživatele a aktualizuje skóre.
      *
-     * @param tvujOdhadPuvodnihoSlova odhad uživatele
+     * @param guess odhad uživatele
      */
-    public void vyhodnotKolo(String tvujOdhadPuvodnihoSlova) {
-        pocetKol++;
-        if (tvujOdhadPuvodnihoSlova.equals(nahodneSlovo)) {
-            scoreClovek++;
-            vyhodnoceni = "SPRÁVNĚ";
+    public void evaluateRound(String guess) {
+        roundCount++;
+        if (guess.equals(originalWord)) {
+            playerScore++;
+            roundResult = "SPRÁVNĚ";
         } else {
-            scorePocitac++;
-            vyhodnoceni = "ŠPATNĚ";
+            computerScore++;
+            roundResult = "ŠPATNĚ";
         }
     }
 

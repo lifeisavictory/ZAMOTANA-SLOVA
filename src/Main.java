@@ -1,7 +1,7 @@
 void main() {
     Scanner scanner = new Scanner(System.in);
     Service service = new Service();
-    int tvojeVolba = 0;
+    int difficultyChoice = 0;
 
     System.out.println("Zahrajeme si spolu hru.");
 
@@ -15,8 +15,8 @@ void main() {
                 """);
         System.out.println("Vlož odpověď: ");
         try {
-            tvojeVolba = Integer.parseInt(scanner.nextLine().trim());
-            service.vyberNahodneSlovo(tvojeVolba);
+            difficultyChoice = Integer.parseInt(scanner.nextLine().trim());
+            service.pickRandomWord(difficultyChoice);
         } catch (NumberFormatException e) {
             System.out.println("Chyba: zadej číslo v rozmezí 1-3.");
             continue; //vraci na zacatek smycky
@@ -26,25 +26,25 @@ void main() {
         }
         //zamichani pismen ve slove + hadani
         try {
-            service.zamichejSlovo();
+            service.shuffleWord();
         } catch (Exception e) {
             System.out.println("Chyba při míchání písmen ve slově.");
             continue;
         }
-        System.out.println("Zamíchané slovo je: " + service.getZamichaneSlovo());
+        System.out.println("Zamíchané slovo je: " + service.getShuffledWord());
         System.out.println("Co je původní slovo?");
-        String tvujOdhadPuvodnihoSlova = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
+        String guess = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
         //vyhodnoceni spravnosti (vcetne napovedy)
-        service.vyhodnotOdhadSNapovedou(tvujOdhadPuvodnihoSlova);
+        service.buildHint(guess);
         //vyhodnoceni spravnosti odhadu
-        service.vyhodnotKolo(tvujOdhadPuvodnihoSlova);
-        System.out.println("Tvůj návrh: " + "\"" + service.getVyhodnoceniZnaku() + "\"" + " a to je " + service.getVyhodnoceni() + " !");
+        service.evaluateRound(guess);
+        System.out.println("Tvůj návrh: " + "\"" + service.getHint() + "\"" + " a to je " + service.getRoundResult() + " !");
         System.out.println();
-        System.out.println("Kolik jsme měli kol: " + service.getPocetKol());
-        System.out.println("SCORE ty vs. pocitac je: " +  service.getScoreClovek() + ":" + service.getScorePocitac());
+        System.out.println("Kolik jsme měli kol: " + service.getRoundCount());
+        System.out.println("SCORE ty vs. pocitac je: " +  service.getPlayerScore() + ":" + service.getComputerScore());
         System.out.println("Chceš si hru zopakovat a/n: ");
-        String odpoved = scanner.nextLine().trim();
-        if (!odpoved.equals("a")) {
+        String playAgainAnswer = scanner.nextLine().trim();
+        if (!playAgainAnswer.equals("a")) {
             break;
         }
     } while (true);

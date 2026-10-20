@@ -154,6 +154,8 @@ src/
 
 Tento soubor README vytvořil AI asistent [Claude Code](https://claude.com/claude-code) (Anthropic). Kód hry s pomocí AI vytvořen nebyl.
 
+- 🏷️ **Anglické názvy proměnných a metod** – návrh překladu českých názvů do angličtiny připravila AI a na žádost autora jím přejmenovala proměnné a metody v kódu. Review navržených názvů udělal autor. Logika hry ani komentáře se nezměnily.
+
 ---
 
 <div align="center">
